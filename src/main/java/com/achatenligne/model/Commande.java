@@ -9,9 +9,9 @@ public class Commande {
 	private List<Produit> produits = new ArrayList<Produit>();
 	
 	public BigDecimal getTotal() {
-		BigDecimal total = BigDecimal.valueOf(0);
+		BigDecimal total = BigDecimal.ZERO;
 		for (Produit produit : produits) {
-			total.add(produit.getPrix());
+			total = total.add(produit.getPrix());
 		}
 		return total;
 	}

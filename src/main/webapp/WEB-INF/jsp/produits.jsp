@@ -20,6 +20,7 @@
 				<th>Code</th>
 				<th>Libellé</th>
 				<th>Prix TTC</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -40,6 +41,7 @@
 		</c:when>
 		<c:otherwise>
 			<p>Votre panier contient ${fn:length(commande.produits)} articles</p>
+			<p><a href="<c:url value='/commande'/>">Consultez et validez votre panier</a></p>
 		</c:otherwise>
 	</c:choose>
 </section>
