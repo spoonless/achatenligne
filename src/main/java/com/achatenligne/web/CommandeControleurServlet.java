@@ -15,6 +15,8 @@ import com.achatenligne.model.CommandeVideException;
 @WebServlet("/commande")
 public class CommandeControleurServlet extends HttpServlet {
 	
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		getServletContext().getRequestDispatcher("/WEB-INF/jsp/commande.jsp").forward(req, resp);
