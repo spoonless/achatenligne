@@ -13,14 +13,19 @@ public class ProduitService {
 		return all;
 	}
 
-	public Produit ajouter(Commande commande, int idProduit) {
+	public Commande creerCommande(int...idProduits) {
+		Commande commande = new Commande();
+		for (int idProduit : idProduits) {
+			ajouter(commande, idProduit);
+		}
+		return commande;
+	}
+
+	private void ajouter(Commande commande, int idProduit) {
 		for (Produit produit : getAll()) {
 			if (produit.getId() == idProduit) {
 				commande.add(produit);
-				return produit;
 			}
 		}
-		return null;
 	}
-
 }

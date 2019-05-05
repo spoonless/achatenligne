@@ -20,16 +20,14 @@ public class CommandeControleurServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ProduitService produitService = new ProduitService();
-		Commande commande = getCommande(req, produitService);
+		Commande commande = getCommande(req);
 		req.setAttribute("commande", commande);
 		getServletContext().getRequestDispatcher("/WEB-INF/jsp/commande.jsp").forward(req, resp);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ProduitService produitService = new ProduitService();
-		Commande commande = getCommande(req, produitService);
+		Commande commande = getCommande(req);
 		req.setAttribute("commande", commande);
 		try {
 			CommandeService commandeService = new CommandeService();
@@ -40,15 +38,21 @@ public class CommandeControleurServlet extends HttpServlet {
 		}
 	}
 
-	private Commande getCommande(HttpServletRequest req, ProduitService produitService) {
-		String[] productIdAsString = req.getParameterValues("produitId");
-		Commande commande = new Commande();
-		if (productIdAsString != null) {
-			for (String productId : productIdAsString) {
-				produitService.ajouter(commande, Integer.valueOf(productId));
-			}
+	private Commande getCommande(HttpServletRequest req) {
+		ProduitService produitService = new ProduitService();
+		int[] productIds = toIntArray(req.getParameterValues("produitId"));
+		return produitService.creerCommande(productIds);
+	}
+
+	private static int[] toIntArray(String[] stringArray) {
+		if (stringArray == null) {
+			return new int[0];
 		}
-		return commande;
+		int[] intArray = new int[stringArray.length];
+		for (int i = 0 ; i < stringArray.length; ++i) {
+			intArray[i] = Integer.valueOf(stringArray[i]);
+		}
+		return intArray;
 	}
 	
 }

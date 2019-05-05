@@ -10,10 +10,10 @@
 <body>
 
 <section>
-	<c:if test="${empty commande}">
+	<c:if test="${empty commande.produits}">
 		<p>Votre commande est vide</p>
 	</c:if>
-	<c:if test="${not empty commande}">
+	<c:if test="${not empty commande.produits}">
 		<p>Votre commande&nbsp;:</p>
 		<table>
 			<thead>

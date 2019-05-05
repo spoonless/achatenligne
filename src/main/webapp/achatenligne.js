@@ -34,5 +34,9 @@ function updateInfoPanier() {
 
 function afficherPanier() {
 	var panier = getPanier();
-	window.location.href = "commande?produitId=" + panier.join("&produitId=");
+	if (panier.length == 0) {
+		window.location.href = "commande";
+	} else {
+		window.location.href = "commande?produitId=" + panier.join("&produitId=");
+	}
 }
