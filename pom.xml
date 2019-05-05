@@ -43,4 +43,46 @@
 			<version>1.2</version>
 		</dependency>
 	</dependencies>
+
+	<build>
+	    <plugins>
+	        <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <!--
+                        Modifier le fichier conf/tomcat-users.xml :
+
+                        <user username="deployer" password="azerty" roles="manager-script,manager-gui"/>
+
+                        L'adresse du manager HTML :
+
+                        http://localhost:8080/manager/html
+
+                        Dans le fichier settings.xml Cf. documentation http://maven.apache.org/settings.html
+
+                        <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+                              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                              xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                                                  https://maven.apache.org/xsd/settings-1.0.0.xsd">
+                              <servers>
+                                <server>
+                                    <id>TomcatServer</id>
+                                    <username>deployer</username>
+                                    <password>azerty</password>
+                                </server>
+                              </servers>
+                        </settings>
+                    -->
+                    <server>TomcatServer</server>
+                    <url>http://localhost:8080/manager/text</url>
+                    <path>/${project.artifactId}</path>
+                    <username>deployer</username>
+                    <password>azerty</password>
+                    <update>true</update>
+                </configuration>
+            </plugin>
+        </plugins>
+	</build>
 </project>
