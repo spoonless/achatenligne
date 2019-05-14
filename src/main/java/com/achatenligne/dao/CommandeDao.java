@@ -2,6 +2,7 @@ package com.achatenligne.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -11,22 +12,60 @@ import com.achatenligne.model.Produit;
 public class CommandeDao {
 	
 	public void enregistrer(Commande commande) {
-		try(Connection connection = ProduitDataSource.getSingleton().getConnection()) {
+		Connection connection = null;
+		boolean transactionOk = false;
+		try {
+			connection = ProduitDataSource.getSingleton().getConnection();
 			try(Statement statement = connection.createStatement()) {
-				statement.executeUpdate("insert into commande () values ()");
-				
-				// insert into ligne_commande (commande_id, produit_id) values ()
-				try(PreparedStatement pStatement = connection.prepareStatement("insert into ligne_commande "
-						                                                     + " (commande_id, produit_id) "
-						                                                     + " values(last_insert_id(), ?)")){
-					for(Produit produit : commande.getProduits()) {
-						pStatement.setInt(1, produit.getId());
-						pStatement.executeUpdate();
+	
+				statement.executeUpdate("insert into commande () values ()", Statement.RETURN_GENERATED_KEYS);
+					
+				try(ResultSet rs = statement.getGeneratedKeys()) {
+					if (rs.next()) {
+						int commandeId = rs.getInt(1);
+						insererLigneCommande(connection, commandeId, commande);
 					}
+				}
+			}
+			transactionOk = true;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			checkTransaction(connection, transactionOk);
+		}
+	}
+
+	private void checkTransaction(Connection connection, boolean transactionOk) {
+		try {
+			if (connection !=null) {
+				if (transactionOk) {
+					connection.commit();
+				} else {
+					connection.rollback();
 				}
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
+		} finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				// Que faire si la fermeture de la connexion echoue ?
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private void insererLigneCommande(Connection connection, int commandeId, Commande commande) throws SQLException {
+		// insert into ligne_commande (commande_id, produit_id) values ()
+		try(PreparedStatement pStatement = connection.prepareStatement("insert into ligne_commande "
+				                                                     + " (commande_id, produit_id) "
+				                                                     + " values(?, ?)")){
+			pStatement.setInt(1, commandeId);
+			for(Produit produit : commande.getProduits()) {
+				pStatement.setInt(2, produit.getId());
+				pStatement.executeUpdate();
+			}
 		}
 	}
 

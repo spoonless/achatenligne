@@ -18,6 +18,7 @@ la balise Resource dans la balise Context décrivant le déploiement de l'applic
 	  <Resource name="bdd/produits"
 	            auth="Container"
 	            type="javax.sql.DataSource"
+                    defaultAutoCommit="false"
 	            maxTotal="100"
 	            maxIdle="30"
 	            maxWaitMillis="10000"
