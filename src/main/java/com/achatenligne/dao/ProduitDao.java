@@ -18,8 +18,8 @@ public class ProduitDao {
 			List<Produit> produits = new ArrayList<Produit>();
 			try (ResultSet rs = stmt.executeQuery("select id, code, libelle, prix from produit")) {
 				while (rs.next()) {
-					Produit p = new Produit(rs.getInt("id"), rs.getString("code"), rs.getString("libelle"),
-							rs.getBigDecimal("prix"));
+					Produit p = new Produit(rs.getInt("id"), rs.getString("code"), 
+							                rs.getString("libelle"), rs.getBigDecimal("prix"));
 					produits.add(p);
 				}
 			}
