@@ -39,8 +39,8 @@ public class ProduitDao {
 
 			try (ResultSet rs = stmt.executeQuery(SELECT_ALL_PRODUITS + " where id = " + id)) {
 				if (rs.next()) {
-					Produit p = new Produit(rs.getInt("id"), rs.getString("code"), rs.getString("libelle"),
-							rs.getBigDecimal("prix"));
+					Produit p = new Produit(rs.getInt("id"), rs.getString("code"), 
+							                rs.getString("libelle"), rs.getBigDecimal("prix"));
 					return Optional.of(p);
 				}
 			}

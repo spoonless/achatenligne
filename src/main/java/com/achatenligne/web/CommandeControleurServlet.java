@@ -31,7 +31,7 @@ public class CommandeControleurServlet extends HttpServlet {
 		req.setAttribute("commande", commande);
 		try {
 			CommandeService commandeService = new CommandeService();
-			commandeService.valider(commande);
+			commandeService.enregistrer(commande);
 			getServletContext().getRequestDispatcher("/WEB-INF/jsp/commandeValidee.jsp").forward(req, resp);
 		} catch (CommandeVideException e) {
 			doGet(req, resp);

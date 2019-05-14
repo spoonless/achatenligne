@@ -1,12 +1,17 @@
 package com.achatenligne.model;
 
+import com.achatenligne.dao.CommandeDao;
+
 public class CommandeService {
 
-	public void valider(Commande commande) throws CommandeVideException {
+	public void enregistrer(Commande commande) throws CommandeVideException {
 		if (commande == null || commande.getProduits().isEmpty()) {
 			throw new CommandeVideException("Votre commande est vide");
 		}
-		// pour l'instant on vide la commande
+
+		CommandeDao commandeDao = new CommandeDao();
+		commandeDao.enregistrer(commande);
+		
 		commande.getProduits().clear();
 		
 	}
