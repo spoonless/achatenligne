@@ -9,6 +9,9 @@ public class Produit {
 	private String libelle;
 	private BigDecimal prix;
 	
+	public Produit() {
+	}
+	
 	public Produit(int id, String code, String libelle, BigDecimal prix) {
 		this.id = id;
 		this.code = code;

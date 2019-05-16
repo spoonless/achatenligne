@@ -11,6 +11,26 @@ public class ProduitService {
 		ProduitDao produitDao = new ProduitDao();
 		return produitDao.getAll();
 	}
+	
+	public Optional<Produit> getById(int id) {
+		ProduitDao produitDao = new ProduitDao();
+		return produitDao.getById(id);
+	}
+	
+	public void ajouter(Produit produit) {
+		ProduitDao produitDao = new ProduitDao();
+		produitDao.create(produit);
+	}
+	
+	public boolean modifier(Produit produit) {
+		ProduitDao produitDao = new ProduitDao();
+		return produitDao.update(produit);
+	}
+
+	public void supprimer(int id) {
+		ProduitDao produitDao = new ProduitDao();
+		produitDao.delete(id);
+	}
 
 	public Commande creerCommande(int...idProduits) {
 		Commande commande = new Commande();

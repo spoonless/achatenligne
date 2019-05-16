@@ -76,7 +76,8 @@ public class ProduitDao extends AbstractDao {
 		}
 	}
 
-	public void update(Produit produit) {
+	public boolean update(Produit produit) {
+		int nbUpdate = 0;
 		String sql = "update produit set code = ?, libelle = ?, prix = ? where id = ?";
 		try {
 			boolean transactionOk = false;
@@ -86,23 +87,24 @@ public class ProduitDao extends AbstractDao {
 				stmt.setString(2, produit.getLibelle());
 				stmt.setBigDecimal(3, produit.getPrix());
 				stmt.setInt(4, produit.getId());
-				stmt.executeUpdate();
+				nbUpdate = stmt.executeUpdate();
 				transactionOk = true;
 			} finally {
 				checkTransactionAndClose(connection, transactionOk);
 			}
+			return nbUpdate == 1;
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public void delete(Produit produit) {
+	public void delete(int id) {
 		String sql = "delete from produit where id = ?";
 		try {
 			boolean transactionOk = false;
 			Connection connection = ProduitDataSource.getSingleton().getConnection();
 			try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-				stmt.setInt(1, produit.getId());
+				stmt.setInt(1, id);
 				stmt.executeUpdate();
 				transactionOk = true;
 			} finally {
