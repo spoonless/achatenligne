@@ -69,7 +69,7 @@ public class ProduitDao extends AbstractDao {
 				}
 				transactionOk = true;
 			} finally {
-				checkTransaction(connection, transactionOk);
+				checkTransactionAndClose(connection, transactionOk);
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -89,7 +89,7 @@ public class ProduitDao extends AbstractDao {
 				stmt.executeUpdate();
 				transactionOk = true;
 			} finally {
-				checkTransaction(connection, transactionOk);
+				checkTransactionAndClose(connection, transactionOk);
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -106,7 +106,7 @@ public class ProduitDao extends AbstractDao {
 				stmt.executeUpdate();
 				transactionOk = true;
 			} finally {
-				checkTransaction(connection, transactionOk);
+				checkTransactionAndClose(connection, transactionOk);
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);

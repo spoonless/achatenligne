@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public abstract class AbstractDao {
 
-	protected void checkTransaction(Connection connection, boolean transactionOk) {
+	protected void checkTransactionAndClose(Connection connection, boolean transactionOk) {
 		try {
 			if (connection !=null) {
 				if (transactionOk) {

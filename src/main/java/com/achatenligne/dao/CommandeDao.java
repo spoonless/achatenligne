@@ -31,7 +31,7 @@ public class CommandeDao extends AbstractDao {
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
-			checkTransaction(connection, transactionOk);
+			checkTransactionAndClose(connection, transactionOk);
 		}
 	}
 
