@@ -19,17 +19,23 @@ import com.achatenligne.model.ProduitService;
 @Path("/produits")
 public class ListeProduitsResource {
 	
+	private UriInfo uriInfo;
+	
+	public ListeProduitsResource(@Context UriInfo uriInfo) {
+		this.uriInfo = uriInfo;
+	}
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Produit> getAll() {
+	public List<ProduitDto> getAll() {
 		ProduitService produitService = new ProduitService();
-		return produitService.getAll();
+		return ProduitDto.asList(produitService.getAll(), uriInfo);
 	}
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response ajouter(Produit produit, @Context UriInfo uriInfo) {
+	public Response ajouter(Produit produit) {
 		ProduitService produitService = new ProduitService();
 		produitService.ajouter(produit);
 		URI uri = uriInfo.getRequestUriBuilder().path(String.valueOf(produit.getId())).build();
