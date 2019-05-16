@@ -9,7 +9,7 @@ import java.sql.Statement;
 import com.achatenligne.model.Commande;
 import com.achatenligne.model.Produit;
 
-public class CommandeDao {
+public class CommandeDao extends AbstractDao {
 	
 	public void enregistrer(Commande commande) {
 		Connection connection = null;
@@ -32,27 +32,6 @@ public class CommandeDao {
 			throw new RuntimeException(e);
 		} finally {
 			checkTransaction(connection, transactionOk);
-		}
-	}
-
-	private void checkTransaction(Connection connection, boolean transactionOk) {
-		try {
-			if (connection !=null) {
-				if (transactionOk) {
-					connection.commit();
-				} else {
-					connection.rollback();
-				}
-			}
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		} finally {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				// Que faire si la fermeture de la connexion echoue ?
-				e.printStackTrace();
-			}
 		}
 	}
 
